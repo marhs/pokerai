@@ -7,6 +7,8 @@ LOOPS = 1000
 def resolveAction(player, pocket, actions, state):
 
 
+    indexActions = ['fold','check','call','bet','raise','allin']
+    
     ## Guarda los datos del estado
 
     ## Empezamos guardando solo las cartas
@@ -18,37 +20,27 @@ def resolveAction(player, pocket, actions, state):
         tableCards.append(card.get('rank')+card.get('suit'))
 
     if len(tableCards) < 3:
-       return doAction(player, 'call', actions) 
+        return doAction(2, actions) 
     else:
         odds = calculateOdds(pocket,tableCards, 3)
         if odds < 0.2:
-            return 'check'
+            return doAction(1, actions)
         elif odds > 0.4:
-            return doAction(player, 'bet', actions)
+            return doAction(4, actions)
         else:
-            return doAction(player, 'call', actions)
+            return doAction(2, actions)
 
-def doAction(player, action, actions):
-    
-    if action == 'raise' or action == 'bet':
-        if action in actions:
-            action = action 
-        elif 'raise' in actions:
-            action = 'raise'
-        elif 'bet' in actions:
-            action = 'bet'
-        elif 'call' in actions:
-            action = 'call'
-        else:
-            action = 'check'
-    elif action == 'call':
-        if action in actions:
-            action = 'call'
-        else:
-            action = 'check'
-    else:
-        action = 'check'
-    return action
+def doAction(maxAction, actions):
+    "Try to do an action. If is not possible, try another least agressive"
+
+    indexActions = ['fold','check','call','bet','raise','allin']
+        
+    for n in reversed(range(maxAction+1)):
+        print("Trying action number ",n)
+        if indexActions[n] in actions:
+            return indexActions[n]
+
+    return 'fold'
 
 def calculateOdds(hand, ntable, numPlayers):
     
