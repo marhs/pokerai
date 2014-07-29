@@ -45,7 +45,7 @@ def doAction(maxAction, actions):
 def calculateOdds(hand, ntable, numPlayers):
     
     score = 0
-    table = [x for x in ntable]
+    table = [x for x in ntable] # Sort of deepcopy
     if len(table) < 3:
         return 0
     for n in range(LOOPS):
@@ -55,13 +55,13 @@ def calculateOdds(hand, ntable, numPlayers):
         deck.remove(hand[0])
         deck.remove(hand[1])
         # Remove the table cards of the deck
-        shuffle(deck)
         for card in table:
             deck.remove(card)
-
+        # Shuffle and fill the table with cards
+        shuffle(deck)
         while(len(table)<5):
             table.append(deck.pop())
-        # Repartir cartas
+        # Generate hands
         players = [generateHands(hand, table)[0]]
         aux = []
         for n in range(numPlayers-1):
@@ -70,9 +70,9 @@ def calculateOdds(hand, ntable, numPlayers):
             players.append(generateHands(aux, table)[0])
             aux = []
 
+        # Check if I have the winner hand
         if players.index(poker(players)[0]) == 0:
             score += 1
-
 
     return score/LOOPS
 
