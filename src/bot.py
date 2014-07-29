@@ -21,7 +21,6 @@ def resolveAction(player, pocket, actions, state):
        return doAction(player, 'call', actions) 
     else:
         odds = calculateOdds(pocket,tableCards, 3)
-        print(odds, len(tableCards))
         if odds < 0.2:
             return 'check'
         elif odds > 0.4:
@@ -31,7 +30,6 @@ def resolveAction(player, pocket, actions, state):
 
 def doAction(player, action, actions):
     
-    print(actions)
     if action == 'raise' or action == 'bet':
         if action in actions:
             action = action 
@@ -50,7 +48,6 @@ def doAction(player, action, actions):
             action = 'check'
     else:
         action = 'check'
-    print(player," is doing: ", action)
     return action
 
 def calculateOdds(hand, ntable, numPlayers):
