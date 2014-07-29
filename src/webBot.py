@@ -7,16 +7,19 @@ import xml.etree.ElementTree as ET
 app = Flask(__name__)
 
 @app.route("/", methods=['POST'])
-def hello():
+def mainFunction():
     
-
+    # Parse the parameters from the request POST data
     name    = request.form['name']
     pocket  = request.form['pocket'].split()
     choices = request.form['actions'].split('\n')
-    state   = request.form['state']
+    stateXML= request.form['state']
 
-    root = ET.fromstring(state)
-    ac = resolveAction(name,pocket,choices,root)
+    # Parse from XML
+    stateXML = ET.fromstring(state)
+
+    # Ask for the next move
+    ac = resolveAction(name,pocket,choices,stateXML)
 
     return ac
 
