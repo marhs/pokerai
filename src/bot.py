@@ -36,7 +36,6 @@ def doAction(maxAction, actions):
     indexActions = ['fold','check','call','bet','raise','allin']
         
     for n in reversed(range(maxAction+1)):
-        print("Trying action number ",n)
         if indexActions[n] in actions:
             return indexActions[n]
 
