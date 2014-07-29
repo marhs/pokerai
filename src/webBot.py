@@ -16,7 +16,7 @@ def mainFunction():
     stateXML= request.form['state']
 
     # Parse from XML
-    stateXML = ET.fromstring(state)
+    stateXML = ET.fromstring(stateXML)
 
     # Ask for the next move
     ac = resolveAction(name,pocket,choices,stateXML)
