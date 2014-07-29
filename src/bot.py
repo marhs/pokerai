@@ -6,13 +6,7 @@ LOOPS = 1000
 
 def resolveAction(player, pocket, actions, state):
 
-
-    indexActions = ['fold','check','call','bet','raise','allin']
-    
-    ## Guarda los datos del estado
-
-    ## Empezamos guardando solo las cartas
-
+    # TODO Add a limit for the raise. Something like strenght*maxMoney
     tableCards = []
 
     a = state.find('community')
