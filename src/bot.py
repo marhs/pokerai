@@ -9,16 +9,19 @@ LIMITS = (0.2,0.4)  # Checks under the first, raise over the second
 def resolveAction(player, pocket, actions, state):
     "Given the status of a game, returns the best action"
     # TODO Add a limit for the raise. Something like strenght*maxMoney
-    tableCards = []
+    tableCards, numPlayers = [], 0
 
     a = state.find('community')
     for card in a.findall('card'):
         tableCards.append(card.get('rank')+card.get('suit'))
+    a = state.find('table')
+    for p in a.findall('player'):
+        numPlayers += 1
 
     if len(tableCards) < 3:
         return doAction(2, actions) 
     else:
-        odds = calculateOdds(pocket,tableCards, 3)
+        odds = calculateOdds(pocket,tableCards, numPlayers)
         if odds < LIMITS[0]:
             return doAction(1, actions)
         elif odds > LIMITS[1]:
