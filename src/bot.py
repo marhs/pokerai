@@ -19,7 +19,10 @@ def resolveAction(player, pocket, actions, state):
         numPlayers += 1
 
     if len(tableCards) < 3:
-        return doAction(2, actions) 
+        if preFlopStrenght(pocket):
+            return doAction(4, actions)
+        else:
+            return doAction(2, actions) 
     else:
         odds = calculateOdds(pocket,tableCards, numPlayers)
         if odds < LIMITS[0]:
@@ -39,6 +42,14 @@ def doAction(maxAction, actions):
             return indexActions[n]
 
     return 'fold'
+
+def preFlopStrenght(hand):
+    "Return if the strenght of the pocket cards is high"
+
+    goodPairs = ['AA','AK','KA','KK','QQ','JJ']
+    pair = [x[0] for x in hand]
+     
+    return ''.join(pair) in goodPairs
 
 def calculateOdds(hand, ntable, numPlayers):
     "Given a hand and the community cards, returns the strenght of the hand" 
