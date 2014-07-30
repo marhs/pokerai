@@ -2,10 +2,12 @@ import xml.etree.ElementTree as ET
 from random import choice, shuffle
 from itertools import combinations
 from poker import poker
-LOOPS = 1000
+
+LOOPS = 1000        # Number of plays to simulate
+LIMITS = (0.2,0.4)  # Checks under the first, raise over the second
 
 def resolveAction(player, pocket, actions, state):
-
+    "Given the status of a game, returns the best action"
     # TODO Add a limit for the raise. Something like strenght*maxMoney
     tableCards = []
 
@@ -17,9 +19,9 @@ def resolveAction(player, pocket, actions, state):
         return doAction(2, actions) 
     else:
         odds = calculateOdds(pocket,tableCards, 3)
-        if odds < 0.2:
+        if odds < LIMITS[0]:
             return doAction(1, actions)
-        elif odds > 0.4:
+        elif odds > LIMITS[1]:
             return doAction(4, actions)
         else:
             return doAction(2, actions)
@@ -36,13 +38,13 @@ def doAction(maxAction, actions):
     return 'fold'
 
 def calculateOdds(hand, ntable, numPlayers):
-    
+    "Given a hand and the community cards, returns the strenght of the hand" 
     score = 0
     table = [x for x in ntable] # Sort of deepcopy
     if len(table) < 3:
         return 0
-    for n in range(LOOPS):
 
+    for n in range(LOOPS):
         deck = [r+s for r in '23456789TJQKA' for s in 'SHDC'] 
         # Remove the pockets cards of the deck
         deck.remove(hand[0])
@@ -62,7 +64,6 @@ def calculateOdds(hand, ntable, numPlayers):
             aux.append(deck.pop())
             players.append(generateHands(aux, table)[0])
             aux = []
-
         # Check if I have the winner hand
         if players.index(poker(players)[0]) == 0:
             score += 1
@@ -70,6 +71,7 @@ def calculateOdds(hand, ntable, numPlayers):
     return score/LOOPS
 
 def generateHands(hand, table):
+    "Return the winner combination of the avaiable cards"
     cards = hand + table
     hands = [list(x) for x in combinations(cards, 5)]
     return poker(hands)
