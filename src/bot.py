@@ -6,10 +6,20 @@ from poker import poker
 LOOPS = 1000        # Number of plays to simulate
 LIMITS = (0.2,0.4)  # Checks under the first, raise over the second
 
+# Define the parameters for the different bots
+USERS = {'helmetk': (0.2,0.4),
+         'marco':   (0.1,0.5)}
+
 def resolveAction(player, pocket, actions, state):
     "Given the status of a game, returns the best action"
     # TODO Add a limit for the raise. Something like strenght*maxMoney
     tableCards, numPlayers = [], 0
+
+    # Use the specific parameters if a bot is called. 
+    if player in USERS:
+        limits = USERS[player]
+    else:
+        limits = LIMITS
 
     a = state.find('community')
     for card in a.findall('card'):
@@ -25,9 +35,9 @@ def resolveAction(player, pocket, actions, state):
             return doAction(2, actions) 
     else:
         odds = calculateOdds(pocket,tableCards, numPlayers)
-        if odds < LIMITS[0]:
+        if odds < limits[0]:
             return doAction(1, actions)
-        elif odds > LIMITS[1]:
+        elif odds > limits[1]:
             return doAction(4, actions)
         else:
             return doAction(2, actions)
