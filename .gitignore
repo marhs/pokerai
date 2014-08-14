@@ -1,0 +1,10 @@
+
+robopokerSdk
+
+bin
+lib
+include
+
+*.pyc
+.*
+
