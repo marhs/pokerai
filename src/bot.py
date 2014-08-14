@@ -18,6 +18,7 @@ def resolveAction(player, pocket, actions, state):
     # Use the specific parameters if a bot is called. 
     if player in USERS:
         limits = USERS[player]
+        print(player, 'is playing')
     else:
         limits = LIMITS
 
