@@ -7,5 +7,5 @@ It's a submission for http://robopoker.org/ Texas Hold'em bot tournament. My bot
 
 For comparisions and hand-rank, I use Peter Norvig's code (poker.py)
 
-I will implement some learning techniques later, becayse at this moment the bot only simulate a lot of games and calculate the strenght of the hand. 
+I will implement some learning techniques later, because at this moment the bot only simulates a lot of games and calculates the strenght of it's hand. 
 
